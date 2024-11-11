@@ -1,0 +1,29 @@
+{
+  "name": "entrega1",
+  "version": "1.0.0",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --no-warnings ./src/app.js",
+    "dev": "nodemon ./src/app.js",
+    "stop-linux": "killall -9 node",
+    "stop-windows": "taskkill /F /IM node.exe",
+    "lint": "eslint ./src --fix"
+  },
+  "keywords": [],
+  "author": "GCD",
+  "license": "MIT",
+  "description": "Entrega del Proyecto de Programación Backend I",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "nodemon": "^3.1.7"
+  },
+  "dependencies": {
+    "entrega": "file:",
+    "entrega1": "file:",
+    "express": "^4.21.1",
+    "moment": "^2.30.1",
+    "multer": "^1.4.5-lts.1",
+    "pre-entrega_1": "file:"
+  }
+}

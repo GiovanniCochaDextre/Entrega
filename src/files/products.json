@@ -1,0 +1,76 @@
+[
+	{
+		"id": 1,
+		"title": "Producto A",
+		"description": "Descripcion A",
+		"code": "AAAAA",
+		"price": 30,
+		"status": false,
+		"stock": 250,
+		"category": "deportes",
+		"thumbnail": "file_6499_03112024_230423.jpg"
+	},
+	{
+		"id": 2,
+		"title": "Producto B",
+		"description": "Descripcion A",
+		"code": "BBBBB",
+		"price": 31,
+		"status": true,
+		"stock": 10,
+		"category": "deportes",
+		"thumbnail": "file_9807_03112024_230420.jpg"
+	},
+	{
+		"id": 3,
+		"title": "Producto C",
+		"description": "Descripcion A",
+		"code": "CCCCC",
+		"price": 32,
+		"status": true,
+		"stock": 15,
+		"category": "deportes",
+		"thumbnail": "file_9564_03112024_230440.jpg"
+	},
+	{
+		"id": 4,
+		"title": "producto D",
+		"description": "description D",
+		"code": "DDDDDD",
+		"price": 54,
+		"status": true,
+		"stock": 20,
+		"category": "deportes"
+	},
+	{
+		"id": 5,
+		"title": "producto E",
+		"description": "description E",
+		"code": "EEEEE",
+		"price": 231,
+		"status": true,
+		"stock": 1,
+		"category": "deportes"
+	},
+	{
+		"id": 6,
+		"title": "producto F",
+		"description": "description F",
+		"code": "FFFFF",
+		"price": 111,
+		"status": true,
+		"stock": 7,
+		"category": "deportes"
+	},
+	{
+		"id": 7,
+		"title": "producto G",
+		"description": "description G",
+		"code": "GGGGG",
+		"price": 222,
+		"status": true,
+		"stock": 71,
+		"category": "deportes",
+		"thumbnail": "file_9146_08112024_211631.jpeg"
+	}
+]
