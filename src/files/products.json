@@ -33,16 +33,6 @@
 		"thumbnail": "file_9564_03112024_230440.jpg"
 	},
 	{
-		"id": 4,
-		"title": "producto D",
-		"description": "description D",
-		"code": "DDDDDD",
-		"price": 54,
-		"status": true,
-		"stock": 20,
-		"category": "deportes"
-	},
-	{
 		"id": 5,
 		"title": "producto E",
 		"description": "description E",
@@ -72,5 +62,27 @@
 		"stock": 71,
 		"category": "deportes",
 		"thumbnail": "file_9146_08112024_211631.jpeg"
+	},
+	{
+		"id": 10,
+		"title": "producto J",
+		"description": "descrip producto J",
+		"code": "JJJJJ",
+		"price": 7,
+		"status": true,
+		"stock": 5,
+		"category": "Pelotas",
+		"thumbnail": null
+	},
+	{
+		"id": 11,
+		"title": "Producto K",
+		"description": "Descrip prod K",
+		"code": "KKKKK",
+		"price": 4,
+		"status": false,
+		"stock": 200,
+		"category": "deportes",
+		"thumbnail": null
 	}
 ]

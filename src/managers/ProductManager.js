@@ -24,6 +24,13 @@ export default class ProductManager {
         return productFound;
     }
 
+    async #findOneByCode(code) {
+        this.#products = await this.getAll();
+        const productFound = this.#products.find((item) => item.code === code);
+
+         return productFound;
+    }
+
     // Obtiene una lista de productos
     async getAll() {
         try {
@@ -44,19 +51,36 @@ export default class ProductManager {
         }
     }
 
+    async getOneByCode(code) {
+        try {
+            const productFound = await this.#findOneByCode(code);
+            return productFound;
+        } catch (error) {
+            throw new ErrorManager(error.message, error.code);
+        }
+    }
+
     // Inserta un producto
     async insertOne(data, file) {
         try {
             const { title, description, code, price, status, stock, category } = data;
 
-
             if (!title || !description || !code || !price || !status || !stock  || !category) {
-                throw new ErrorManager("Faltan datos obligatorios", 400);
+                 throw new ErrorManager("Faltan datos obligatorios", 400);
             }
 
-            if (!file?.filename) {
-                 throw new ErrorManager("Falta el archivo de la imagen", 400);
+            //imagen no obligatoria
+            // if (!file?.filename) {
+            //      throw new ErrorManager("Falta el archivo de la imagen", 400);
+            // }
+            const productFound = await this.#findOneByCode(code);
+            console.log(productFound);
+
+            if (productFound != null) {
+                throw new ErrorManager("Código de producto ya existe", 400);
             }
+
+
 
             const product = {
                 id: generateId(await this.getAll()),
@@ -67,7 +91,7 @@ export default class ProductManager {
                 status: convertToBoolean(status),
                 stock: Number(stock),
                 category,
-                thumbnail: file?.filename,
+                thumbnail: file?.filename ?? null,
             };
 
             this.#products.push(product);
