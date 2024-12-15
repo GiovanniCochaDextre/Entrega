@@ -21,7 +21,7 @@ const btnDeleteProduct = document.getElementById("btn-delete-product");
 const errorMessage = document.getElementById("error-message")
 
 socket.on("products-list", (data) => {
-    const products = data.products || [];
+    const products = data.products.docs ?? [];
 
     productsList.innerText = "";
 
@@ -30,7 +30,7 @@ socket.on("products-list", (data) => {
     });
 });
 
-productsForm.addEventListener("submit", (event) => {
+productsForm.onsubmit = (event) => {
     event.preventDefault();
     const form = event.target;
     const formdata = new FormData(form);
@@ -48,17 +48,17 @@ productsForm.addEventListener("submit", (event) => {
         stock: formdata.get("stock"),
     });
     
-});
+};
 
-btnDeleteProduct.addEventListener("click", () => {
-    const id = inputProductId.value;
+btnDeleteProduct.onclick = () => {
+    const id = Number(inputProductId.value);
     inputProductId.innerText = "";
     errorMessage.innerText = "";
 
     if (id > 0) {
         socket.emit("delete-product", { id });
     }
-});
+};
 
 
 socket.on("error-message", (data) => {

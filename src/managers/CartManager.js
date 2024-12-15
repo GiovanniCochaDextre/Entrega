@@ -1,64 +1,76 @@
-import paths from "../utils/paths.js";
-import { readJsonFile, writeJsonFile } from "../utils/fileHandler.js";
-import { generateId } from "../utils/collectionHandler.js";
 import ErrorManager from "./ErrorManager.js";
+import { isValidID } from "../config/mongoose.config.js";
+import CartModel from "../models/cart.model.js";
 
 export default class CartManager {
-    #jsonFilename;
-    #carts;
+    #cartModel;
 
     constructor() {
-        this.#jsonFilename = "carts.json";
+        this.#cartModel = CartModel;
     }
 
-    // Busca un carrito por su ID
+    // Busca una receta por su ID
     async #findOneById(id) {
-        this.#carts = await this.getAll();
-        const cartFound = this.#carts.find((item) => item.id === Number(id));
+        if (!isValidID(id)) {
+            throw new ErrorManager("ID inválido", 400);
+        }
 
-        if (!cartFound) {
+        const cart = await this.#cartModel.findById(id);
+
+        if (!cart) {
             throw new ErrorManager("ID no encontrado", 404);
         }
 
-        return cartFound;
+        return cart;
     }
 
     // Obtiene una lista de carritos
-    async getAll() {
+    async getAll(params) {
         try {
-            this.#carts = await readJsonFile(paths.files, this.#jsonFilename);
-            return this.#carts;
+            const paginationOptions = {
+                limit: params?.limit || 10, // Número de documentos por página (por defecto 10)
+                page: params?.page || 1, // Página actual (por defecto 1)
+                lean: true, // Convertir los resultados en objetos planos
+            };
+
+            return await this.#cartModel.paginate({}, paginationOptions);
         } catch (error) {
-            throw new ErrorManager(error.message, error.code);
+            throw ErrorManager.handleError(error);
         }
     }
 
     // Obtiene un carrito específico por su ID
     async getOneById(id) {
         try {
-            const cartFound = await this.#findOneById(id);
-            return cartFound;
+            return await this.#findOneById(id);
         } catch (error) {
-            throw new ErrorManager(error.message, error.code);
+            throw ErrorManager.handleError(error);
         }
     }
 
     // Inserta un carrito
     async insertOne(data) {
         try {
-            //console.log(data);
+            const cart = await this.#cartModel.create(data);
+            return cart;
+        } catch (error) {
+            throw ErrorManager.handleError(error);
+        }
+    }
 
-            const products = data?.products?.map(((item) => {
-                return { product: Number(item.id), quantity: 1 };
-            }));
+    // Agrega un producto a un carrito o incrementa la cantidad de un producto existente
+    async addOneProduct(id, productId, quantity) {
+        try {
+            const cart = await this.#findOneById(id);
+            const productIndex = cart.products.findIndex((item) => item.product._id.toString() === productId);
 
-            const cart = {
-                id: generateId(await this.getAll()),
-                products: products || [],
-            };
+            if (productIndex >= 0) {
+                cart.products[productIndex].quantity = quantity;   //si existe se agrega la cantidad indicada
+            } else {
+                cart.products.push({ product: productId, quantity: quantity });  //si no existe se inserta la cantidad enviada
+            }
 
-            this.#carts.push(cart);
-            await writeJsonFile(paths.files, this.#jsonFilename, this.#carts);
+            await cart.save();
 
             return cart;
         } catch (error) {
@@ -66,25 +78,37 @@ export default class CartManager {
         }
     }
 
-    // Agrega un producto a un carrito o incrementa la cantidad de un producto existente
-    addOneIngredient = async (id, productId) => {
+    //elimina todo el carrito
+    async deleteOneById(id) {
         try {
-            const cartFound = await this.#findOneById(id);
-            const productIndex = cartFound.products.findIndex((item) => item.product === Number(productId));
+            const cart = await this.#findOneById(id);
+            await cart.deleteOne();
+        } catch (error) {
+            throw ErrorManager.handleError(error);
+        }
+    }   
+    
+    //elimina un producto del carrito
+    async deleteOneProduct(id, productId) {
+        try {
+            const cart = await this.#findOneById(id);
 
-            if (productIndex >= 0) {
-                cartFound.products[productIndex].quantity++;
-            } else {
-                cartFound.products.push({ product: Number(productId), quantity: 1 });
+            if (!cart) {
+                throw new ErrorManager("Carrito no encontrado", 404);
             }
 
-            const index = this.#carts.findIndex((item) => item.id === Number(id));
-            this.#carts[index] = cartFound;
-            await writeJsonFile(paths.files, this.#jsonFilename, this.#carts);
+            const productIndex = cart.products.findIndex((item) => item.product._id.toString() === productId); 
+            if (productIndex === -1) {
+                throw new ErrorManager("ID del producto no encontrado", 404); 
+            } 
+            
+            cart.products.splice(productIndex, 1); // Elimina el producto del array 
+            await cart.save();
 
-            return cartFound;
+            return cart;
+
         } catch (error) {
             throw new ErrorManager(error.message, error.code);
         }
-    };
+    }
 }

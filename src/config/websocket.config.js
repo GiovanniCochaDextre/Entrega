@@ -10,25 +10,38 @@ export const config = (httpServer) => {
 
     // Escucha el evento de conexión de un nuevo cliente
     socketServer.on("connection", async (socket) => {
-        socketServer.emit("products-list", { products : await productManager.getAll() })
+        console.log("Conexión establecida", socket.id);
+
+        // Envía la lista de productes al conectarse
+        socketServer.emit("products-list", { products: await productManager.getAll() });
 
         socket.on("insert-product", async (data) => {
             try {
                 await productManager.insertOne(data);
-                socketServer.emit("products-list", { products : await productManager.getAll() })
+
+                // Envía la lista de productos actualizada después de insertar
+                socketServer.emit("products-list", { products: await productManager.getAll() });
             } catch (error) {
-                socketServer.emit("error-message", { message : error.message });
+                // Envía el mensaje de error
+                socketServer.emit("error-message", { message: error.message });
             }
         });
 
         socket.on("delete-product", async (data) => {
             try {
-                await productManager.deleteOneById(data.id);
-                socketServer.emit("products-list", { products : await productManager.getAll() })
+                await productManager.deleteOneById(Number(data.id));
+
+                // Envía la lista de productos actualizada después de insertar
+                socketServer.emit("products-list", { products: await productManager.getAll() });
             } catch (error) {
-                socketServer.emit("error-message", { message : error.message });
+                // Envía el mensaje de error
+                socketServer.emit("error-message", { message: error.message });
             }
         });
-    });
 
+        // Escucha el evento de desconexión del cliente
+        socket.on("disconnect", () => {
+            console.log("Se desconecto un cliente"); // Indica que un cliente se desconectó
+        });
+    });
 };
