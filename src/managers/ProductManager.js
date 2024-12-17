@@ -34,10 +34,9 @@ export default class ProductManager {
             if (params?.category) $and.push({ category: { $regex: params.category, $options: "i" } });
 
             if (params?.status !== undefined) {
-                 
                 const status = params.status.toLowerCase() === 'true' || params.status === '1' || params.status.toLowerCase() === 'on';   //status me indica disponibilidad = si viene true, 1, on => filtra todos los productos con status=true  = disponibles
-                $and.push({ status: status }); }
-
+                $and.push({ status: status }); 
+            }
 
             if (params?.stock_gt) $and.push({ stock: { $gt: parseInt(params.stock_gt) } });  //filtro por stock, consultar stock > variable 
 
@@ -50,10 +49,12 @@ export default class ProductManager {
                 title_desc: { title: -1, price: 1 },
             };
 
+            const sortOption = sort[params?.sort] ?? {};
+
             const paginationOptions = {
                 limit: params?.limit || 10, // Número de documentos por página (por defecto 10)
                 page: params?.page || 1, // Página actual (por defecto 1)
-                sort: sort[params?.sort] ?? {}, // Ordenamiento (sin orden por defecto)
+                sort: sortOption, // Ordenamiento (sin orden por defecto)
                 lean: true, // Convertir los resultados en objetos planos
             };
 

@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Productos</title>
+</head>
+
+<body>
 <header>
 <h1>INICIO - Productos en Tiempo real</h1>
 </header>
@@ -5,12 +14,40 @@
 <main>
     <section>
         <h3>Productos</h3>
+        
+        <div class="sort-buttons"> 
+            <button id="sort-asc">Ordenar Ascendente</button> 
+            <button id="sort-desc">Ordenar Descendente</button> 
+            <button id="sort-none">Quitar Ordenamiento</button>
+        </div>
+
         <div class="products">
             <div class="products__list">
-                <ul class="products__list__item" id="products-list"></ul>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Precio</th>
+                            <th>Acciones</th> <!-- Nueva columna para los botones -->
+                        </tr>
+                    </thead>
+                    <tbody id="products-list"></tbody>
+                </table>
             </div>
+            <div class="pagination">
+                <button id="first-page">Primera</button>
+                <button id="prev-page">Anterior</button>
+                <span id="page-info"></span>
+                <button id="next-page">Siguiente</button>
+                <button id="last-page">Última</button>
+            </div>  
         </div>        
     </section>
+
+    {{!-- <section> 
+        <button id="btn-refresh-products-list">Refrescar Lista de Productos</button> 
+    </section> --}}
 
     <section>
         <h3>Formulario de Productos</h3>
@@ -26,25 +63,24 @@
             </div>
 
             <input type="submit" value="Guardar">
-
         </form>
     </section>
 
-    <secion>
+    <section>
         <h3>Eliminar Producto</h3>
         <div class="products__delete">
             <input type="text" class="products__delete__input" id="input-product-id"
                 placeholder="ID del Producto">
             <button id="btn-delete-product">Eliminar</button>
         </div>
-    </secion>
+    </section>
 
-
-    <p class="error-message" id="error-message" ></p>
-
+    <p class="error-message" id="error-message"></p>
 </main>
 
-
-
-<script src="/socket.io/socket.io.js"></script>{{!-- El script de socket.io debe estar antes que home.js --}}
+<script src="/socket.io/socket.io.js"></script>{{!-- El script de socket.io debe estar antes que product.js --}}
 <script src="/api/public/js/products.socket.js"></script>
+<script src="/api/public/js/product.js"></script>
+<script src="/api/public/js/pagination.js"></script>
+</body>
+</html>

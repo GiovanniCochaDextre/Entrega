@@ -25,8 +25,26 @@ socket.on("products-list", (data) => {
 
     productsList.innerText = "";
 
-    products.forEach((product) => {
-        productsList.innerHTML += `<li>${product.id} - Nombre: ${product.title} </li>`;
+    // products.forEach((product) => {
+    //     productsList.innerHTML += `<>${product.id} - Nombre: ${product.title}- Precio: ${product.price}</li>`;
+
+    // });
+
+    products.forEach((product) => { 
+        const row = document.createElement('tr'); 
+        const idCell = document.createElement('td'); 
+        const titleCell = document.createElement('td'); 
+        const priceCell = document.createElement('td'); 
+
+        idCell.innerText = product.id; 
+        titleCell.innerText = product.title; 
+        priceCell.innerText = product.price; 
+        priceCell.classList.add('price-cell'); 
+        
+        row.appendChild(idCell); 
+        row.appendChild(titleCell); 
+        row.appendChild(priceCell); 
+        productsList.appendChild(row); 
     });
 });
 
@@ -51,11 +69,12 @@ productsForm.onsubmit = (event) => {
 };
 
 btnDeleteProduct.onclick = () => {
-    const id = Number(inputProductId.value);
-    inputProductId.innerText = "";
+    const id = inputProductId.value;
+
+    inputProductId.value = "";
     errorMessage.innerText = "";
 
-    if (id > 0) {
+    if (id != "") {
         socket.emit("delete-product", { id });
     }
 };
