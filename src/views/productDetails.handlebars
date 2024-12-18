@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+</head>
+<body>
+    <header>
+        <h1>Detalles del Producto</h1>
+        <a href="/">Regresar a la Lista de Productos</a>
+    </header>
+
+    <main>
+        <ul>
+            <li><strong>ID:</strong> {{product._id}}</li>
+            <li><strong>Título:</strong> {{product.title}}</li>
+            <li><strong>Descripción:</strong> {{product.description}}</li>
+            <li><strong>Precio:</strong> ${{product.price}}</li>
+            <li><strong>Categoría:</strong> {{product.category}}</li>
+            <li><strong>Stock:</strong> {{product.stock}}</li>
+            <li><strong>Estado:</strong> {{#if product.status}}Disponible{{else}}No Disponible{{/if}}</li>
+        </ul>
+    </main>
+</body>
+</html>

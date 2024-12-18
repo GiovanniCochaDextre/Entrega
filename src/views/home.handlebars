@@ -8,7 +8,7 @@
 
 <body>
 <header>
-<h1>INICIO - Productos en Tiempo real</h1>
+<h1>Inicio - Productos en Tiempo real</h1>
 </header>
 
 <main>
@@ -45,6 +45,7 @@
         </div>        
     </section>
 
+   <button id="view-cart">Ver carrito</button>
     {{!-- <section> 
         <button id="btn-refresh-products-list">Refrescar Lista de Productos</button> 
     </section> --}}
@@ -80,7 +81,6 @@
 
 <script src="/socket.io/socket.io.js"></script>{{!-- El script de socket.io debe estar antes que product.js --}}
 <script src="/api/public/js/products.socket.js"></script>
-<script src="/api/public/js/product.js"></script>
-<script src="/api/public/js/pagination.js"></script>
+<script src="/api/public/js/products.js" type="module"></script>
 </body>
 </html>

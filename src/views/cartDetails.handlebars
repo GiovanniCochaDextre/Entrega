@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Carrito de Compras</h1>
+        <a href="/">Volver a la tienda</a>
+    </header>
+
+    <main>
+        {{#if cart.products.length}}
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each cart.products}}
+                <tr>
+                    <td>{{this.product.title}}</td>
+                    <td>{{this.quantity}}</td>
+                    <td>{{this.product.price}}</td>
+                    <td>{{multiply this.quantity this.product.price}}</td>
+                    <td>
+                        <button class="btn-delete-product" data-product-id="{{this.product._id}}">Eliminar</button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+        {{else}}
+        <p>Tu carrito está vacío.</p>
+        {{/if}}
+    </main>
+
+    <script src="/api/public/js/carts.js"></script>
+
+</body>
+</html>

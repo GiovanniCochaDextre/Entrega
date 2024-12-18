@@ -52,8 +52,8 @@ const productSchema = new Schema({
         required: [ true, "El estado es obligatorio" ],
     },    
     thumbnail: {
-         type: String,
-         trim: true,
+        type: String,
+        trim: true,
     },
 }, {
     timestamps: true, // Añade timestamps para generar createdAt y updatedAt

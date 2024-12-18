@@ -10,6 +10,20 @@ export default class CartManager {
     }
 
     // Busca una receta por su ID
+    async #findOneByIdPopulate(id) {
+        if (!isValidID(id)) {
+            throw new ErrorManager("ID inválido", 400);
+        }
+
+        const cart = await this.#cartModel.findById(id).populate("products.product").lean();
+
+        if (!cart) {
+            throw new ErrorManager("ID no encontrado", 404);
+        }
+
+        return cart;
+    }
+
     async #findOneById(id) {
         if (!isValidID(id)) {
             throw new ErrorManager("ID inválido", 400);
@@ -23,7 +37,6 @@ export default class CartManager {
 
         return cart;
     }
-
     // Obtiene una lista de carritos
     async getAll(params) {
         try {
@@ -42,7 +55,7 @@ export default class CartManager {
     // Obtiene un carrito específico por su ID
     async getOneById(id) {
         try {
-            return await this.#findOneById(id);
+            return await this.#findOneByIdPopulate(id);
         } catch (error) {
             throw ErrorManager.handleError(error);
         }

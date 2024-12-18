@@ -25,11 +25,6 @@ socket.on("products-list", (data) => {
 
     productsList.innerText = "";
 
-    // products.forEach((product) => {
-    //     productsList.innerHTML += `<>${product.id} - Nombre: ${product.title}- Precio: ${product.price}</li>`;
-
-    // });
-
     products.forEach((product) => { 
         const row = document.createElement('tr'); 
         const idCell = document.createElement('td'); 
